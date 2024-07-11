@@ -9,13 +9,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SessionModule } from './session/session.module';
 import { EmailModule } from './email/email.module';
+import { cfg } from './utils/env';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    MongooseModule.forRoot(cfg.mongoose.uri),
     AuthModule,
     UserModule,
     ProfileModule,

@@ -2,7 +2,7 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateProfileDto {
   @IsNotEmpty()
-  user_id: string;
+  user_id: Object;
 
   @IsString()
   @IsOptional()

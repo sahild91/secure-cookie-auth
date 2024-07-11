@@ -7,6 +7,8 @@ const { env } = process;
 /** sets application variables into prod or dev */
 export const prod = env.NODE_ENV === 'prod' ? true : false;
 
+const privateKey = env.PRIVATE_KEY;
+
 /** configures certain features to work in testing or not  */
 export const env_test = env.NODE_ENV === 'test';
 
@@ -49,6 +51,9 @@ export const cfg = {
   },
   bcrypt: {
     salt: 12,
+  },
+  keys: {
+    privateKey: privateKey.replace(/\\n/g,'\n'),
   },
 };
 

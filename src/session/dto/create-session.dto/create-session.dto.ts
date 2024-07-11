@@ -2,7 +2,7 @@ import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsDateString } from 'class
 
 export class CreateSessionDto {
   @IsNotEmpty()
-  user_id: string;
+  user_id: Object;
 
   @IsBoolean()
   @IsOptional()

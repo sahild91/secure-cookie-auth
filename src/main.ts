@@ -13,12 +13,18 @@ async function bootstrap() {
   const server = express();
 
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+
+  console.log("Whitelist - ", cfg.cors.whitelist);
   
   // Enable CORS
-  app.enableCors({
+  const corsOptions = {
     origin: cfg.cors.whitelist,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
-  });
+    allowedHeaders: 'Content-Type, Authorization',
+  };
+
+  app.enableCors(corsOptions);
 
   // Apply Helmet for basic security
   app.use(helmet());
@@ -34,17 +40,25 @@ async function bootstrap() {
   // Global validation pipe
   app.useGlobalPipes(new ValidationPipe());
 
-  // HTTPS setup
-  const httpsOptions = {
-    key: fs.readFileSync(cfg.server.keyPath),
-    cert: fs.readFileSync(cfg.server.certPath),
-  };
-  const httpsServer = https.createServer(httpsOptions, server);
+  app.setGlobalPrefix('api');
 
-  // Start the server with HTTPS
-  httpsServer.listen(cfg.server.port, () => {
-    console.log(`Server is running on https://localhost:${cfg.server.port}`);
-  });
+  if (process.env.NODE_ENV === 'production') {
+    // HTTPS setup
+    const httpsOptions = {
+      key: fs.readFileSync(cfg.server.keyPath),
+      cert: fs.readFileSync(cfg.server.certPath),
+    };
+    const httpsServer = https.createServer(httpsOptions, server);
+
+    // Start the server with HTTPS
+    httpsServer.listen(cfg.server.port, () => {
+      console.log(`Server is running on https://localhost:${cfg.server.port}`);
+    });
+  } else {
+    await app.listen(cfg.server.port, () => {
+      console.log(`Server is running on http://localhost:${cfg.server.port}`);
+    })
+  }
 }
 
 bootstrap();

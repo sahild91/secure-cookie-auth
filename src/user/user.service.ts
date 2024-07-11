@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { UpdateUserDto } from '../auth/dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -47,5 +48,12 @@ export class UserService {
     if (result === null) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
+  }
+
+  async generateUserModel(username: string, email: string, password: string, firstName: string, lastName: string): Promise<User> {
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = new this.userModel({email, username, password: hashedPassword, firstName, lastName});
+
+    return user;
   }
 }

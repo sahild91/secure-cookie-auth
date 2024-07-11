@@ -19,6 +19,7 @@ export class ActivityController {
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Activity> {
+    console.log(id);
     return this.activityService.findOne(id);
   }
 

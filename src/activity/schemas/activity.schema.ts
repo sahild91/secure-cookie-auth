@@ -6,6 +6,9 @@ export class Activity extends Document {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user_id: Types.ObjectId;
 
+  @Prop({type: String})
+  lastLogin: string;
+
   @Prop({ type: [Date] })
   mouseLeftClick: Date[];
 

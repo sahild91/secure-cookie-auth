@@ -19,10 +19,10 @@ export class ActivityService {
     return this.activityModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Activity> {
+  async findOne(id: Object): Promise<Activity> {
     const activity = await this.activityModel.findById(id).exec();
     if (!activity) {
-      throw new NotFoundException(`Activity #${id} not found`);
+      throw new NotFoundException(`Activity #${id.toString()} not found`);
     }
     return activity;
   }

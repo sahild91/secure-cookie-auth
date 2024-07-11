@@ -23,7 +23,7 @@ export class User extends Document {
   lastActiveAt: Date;
 
   @Prop()
-  source: any;
+  source: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Profile' })
   profile: Types.ObjectId;

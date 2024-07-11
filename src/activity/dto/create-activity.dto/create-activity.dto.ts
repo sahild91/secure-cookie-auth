@@ -1,8 +1,11 @@
-import { IsNotEmpty, IsOptional, IsArray } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsArray, IsDateString } from 'class-validator';
 
 export class CreateActivityDto {
   @IsNotEmpty()
-  user_id: string;
+  user_id: Object;
+
+  @IsDateString()
+  lastLogin: string;
 
   @IsArray()
   @IsOptional()
